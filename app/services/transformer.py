@@ -1,5 +1,6 @@
 from typing import Dict, List
 from collections import defaultdict, Counter
+import requests
 
 
 def process_strong_pokemon_info(pokemon_info: Dict[str, str]):
@@ -81,3 +82,15 @@ def filter_strong_pokemons(
             )
 
     return {"strong_teams": filtered_teams}
+
+
+def get_all_pokemons_from_type(pokemons_types: List[str]):
+    pokemons = []
+    for pkm_type in pokemons_types:
+        response = requests.get(rf"https://pokeapi.co/api/v2/type/{pkm_type}")
+        jr = response.json()
+
+        for pokemon in jr["pokemon"]:
+            pokemons.append(pokemon["pokemon"]["name"])
+
+    return pokemons
