@@ -34,10 +34,3 @@ def get_move_details(moves_list: MovesList):
     client = SupabaseService(os.getenv("SUPABASE_URL"), os.getenv("SUPABASE_API_KEY"))
     response = client.get_moves_details(moves_list.moves)
     return {"moves": response}
-
-
-@router.options("/moves_details")
-def get_move_details(moves_list: MovesList):
-    client = SupabaseService(os.getenv("SUPABASE_URL"), os.getenv("SUPABASE_API_KEY"))
-    response = client.get_moves_details(moves_list.moves)
-    return {"moves": response}
