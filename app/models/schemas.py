@@ -11,3 +11,7 @@ class HighestUsagePokemons(BaseModel):
 
 class PokemonTypes(BaseModel):
     types: List[str]
+
+
+class MovesList(BaseModel):
+    moves: List[str]

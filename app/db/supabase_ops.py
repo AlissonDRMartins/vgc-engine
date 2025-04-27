@@ -51,3 +51,9 @@ class SupabaseService:
         ).execute()
 
         return response.data
+
+    def get_moves_details(self, moves_list: List[str]):
+        client = self.get_client()
+        response = client.rpc("moves_details", {"moves_list": moves_list}).execute()
+
+        return response.data
