@@ -33,4 +33,4 @@ def get_top_pokemons(highest_usage_pokemons: HighestUsagePokemons):
 def get_move_details(moves_list: MovesList):
     client = SupabaseService(os.getenv("SUPABASE_URL"), os.getenv("SUPABASE_API_KEY"))
     response = client.get_moves_details(moves_list)
-    return response
+    return {"moves": response}
