@@ -15,3 +15,7 @@ class PokemonTypes(BaseModel):
 
 class MovesList(BaseModel):
     moves: List[str]
+
+
+class AbilitiesList(BaseModel):
+    abilities: List[str]
