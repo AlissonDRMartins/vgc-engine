@@ -3,7 +3,12 @@ import os
 from fastapi import APIRouter
 from app.db.supabase_ops import SupabaseService
 from app.services.transformer import process_strong_pokemon_info, filter_strong_pokemons
-from app.models.schemas import HighestUsagePokemons, PokemonTypes, MovesList
+from app.models.schemas import (
+    HighestUsagePokemons,
+    PokemonTypes,
+    MovesList,
+    AbilitiesList,
+)
 
 router = APIRouter()
 
@@ -34,3 +39,19 @@ def get_move_details(moves_list: MovesList):
     client = SupabaseService(os.getenv("SUPABASE_URL"), os.getenv("SUPABASE_API_KEY"))
     response = client.get_moves_details(moves_list.moves)
     return {"moves": response}
+
+
+@router.get("/items")
+def get_item_details():
+    client = SupabaseService(os.getenv("SUPABASE_URL"), os.getenv("SUPABASE_API_KEY"))
+    response = client.get_items_details()
+
+    return {"items": response}
+
+
+@router.post("/abilities")
+def get_abitily_details(abilities_list: AbilitiesList):
+    client = SupabaseService(os.getenv("SUPABASE_URL"), os.getenv("SUPABASE_API_KEY"))
+    response = client.get_abilities_details(abilities_list.abilities)
+
+    return {"abilities": response}

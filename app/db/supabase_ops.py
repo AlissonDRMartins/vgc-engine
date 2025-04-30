@@ -57,3 +57,20 @@ class SupabaseService:
         response = client.rpc("moves_details", {"moves_list": moves_list}).execute()
 
         return response.data
+
+    def get_items_details(self):
+        client = self.get_client()
+        response = client.table("items").select("name, category, effect").execute()
+
+        return response.data
+
+    def get_abilities_details(self, abilities_list: List[str]):
+        client = self.get_client()
+        response = (
+            client.table("abilities")
+            .select("id, name, effect")
+            .in_("name", abilities_list)
+            .execute()
+        )
+
+        return response.data
