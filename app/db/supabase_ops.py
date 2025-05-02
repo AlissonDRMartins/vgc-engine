@@ -1,7 +1,6 @@
 from typing import List, Optional
 from dataclasses import dataclass
 from supabase import create_client, Client
-from app.services.transformer import get_all_pokemons_from_type
 
 
 @dataclass
@@ -34,6 +33,8 @@ class SupabaseService:
         return response.data
 
     def get_team_weakpoints(self, pokemon_types: List[str]):
+        from app.services.transformer import get_all_pokemons_from_type
+
         client = self.get_client()
         pokemons_list = get_all_pokemons_from_type(pokemon_types)
         response = client.rpc(
@@ -70,6 +71,28 @@ class SupabaseService:
             client.table("abilities")
             .select("id, name, effect")
             .in_("name", abilities_list)
+            .execute()
+        )
+
+        return response.data
+
+    def get_pokemon_types(self, pokemon_name: str):
+        client = self.get_client()
+        response = (
+            client.table("pokemons")
+            .select("type1, type2")
+            .eq("name", pokemon_name)
+            .execute()
+        )
+
+        return response.data
+
+    def get_pokemon_abilities(self, pokemon_name: str):
+        client = self.get_client()
+        response = (
+            client.table("pokemons")
+            .select("abilities")
+            .eq("name", pokemon_name)
             .execute()
         )
 

@@ -1,13 +1,19 @@
-# app/api/endpoints.py
 import os
 from fastapi import APIRouter
 from app.db.supabase_ops import SupabaseService
-from app.services.transformer import process_strong_pokemon_info, filter_strong_pokemons
+from app.services.transformer import (
+    process_strong_pokemon_info,
+    filter_strong_pokemons,
+    process_team,
+    process_pokemon,
+)
 from app.models.schemas import (
     HighestUsagePokemons,
     PokemonTypes,
     MovesList,
     AbilitiesList,
+    PokepasteLink,
+    PokemonInfo,
 )
 
 router = APIRouter()
@@ -55,3 +61,26 @@ def get_abitily_details(abilities_list: AbilitiesList):
     response = client.get_abilities_details(abilities_list.abilities)
 
     return {"abilities": response}
+
+
+@router.post("/analyze_pokepaste")
+def pokepaste_analysis(pokepaste_link: PokepasteLink):
+    info = process_team(pokepaste_link.pokepaste)
+    return {"team_info": info}
+
+
+@router.post("/analyze_pokemon")
+def pokemon_analysis(pokemon_info: PokemonInfo):
+    poke_info = {
+        "name": pokemon_info.name,
+        "item": pokemon_info.item,
+        "ability": pokemon_info.ability,
+        "level": pokemon_info.level,
+        "tera": pokemon_info.tera,
+        "evs": pokemon_info.evs,
+        "nature": pokemon_info.nature,
+        "ivs": pokemon_info.ivs,
+        "moves": pokemon_info.moves,
+    }
+    info = process_pokemon(poke_info)
+    return {"pokemon_info": info}
