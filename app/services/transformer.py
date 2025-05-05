@@ -109,11 +109,20 @@ def extract_pokepaste_info(pokepaste_link: str):
 
         a = lines[0]
         poke_info["name"] = a.split("@")[0].strip().lower().replace(" ", "-")
-        poke_info["item"] = a.split("@")[1].strip().lower().replace(" ", "-")
-        poke_info["ability"] = (
-            lines[1].split("Ability: ")[1].strip().lower().replace(" ", "-")
-        )
-        poke_info["level"] = lines[2].split("Level: ")[1].lower().strip()
+        try:
+            poke_info["item"] = a.split("@")[1].strip().lower().replace(" ", "-")
+        except:
+            poke_info["item"] = "Unknown"
+        try:
+            poke_info["ability"] = (
+                lines[1].split("Ability: ")[1].strip().lower().replace(" ", "-")
+            )
+        except:
+            poke_info["ability"] = "Unknown"
+        try:
+            poke_info["level"] = lines[2].split("Level: ")[1].lower().strip()
+        except:
+            poke_info["level"] = "50"
         poke_info["tera"] = lines[3].split("Tera Type: ")[1].lower().strip()
 
         evs = {
@@ -183,10 +192,13 @@ def extract_pokepaste_info(pokepaste_link: str):
 
         poke_info["evs"] = evs
         poke_info["ivs"] = ivs
-        poke_info["moves"] = [
-            x.replace("- ", "").strip().replace(" ", "-").lower()
-            for x in pokemon.split("- ")[1::]
-        ]
+        try:
+            poke_info["moves"] = [
+                x.replace("- ", "").strip().replace(" ", "-").lower()
+                for x in pokemon.split("- ")[1::]
+            ]
+        except:
+            poke_info["moves"] = "Unkown"
         all_pokemons.append(poke_info)
 
     return all_pokemons
