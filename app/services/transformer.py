@@ -123,8 +123,10 @@ def extract_pokepaste_info(pokepaste_link: str):
             poke_info["level"] = lines[2].split("Level: ")[1].lower().strip()
         except:
             poke_info["level"] = "50"
-        poke_info["tera"] = lines[3].split("Tera Type: ")[1].lower().strip()
-
+        try:
+            poke_info["tera"] = lines[3].split("Tera Type: ")[1].lower().strip()
+        except:
+            poke_info["tera"] = "Unknown"
         evs = {
             "hp": 0,
             "attack": 0,
