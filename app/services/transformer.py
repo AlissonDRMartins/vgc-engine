@@ -259,6 +259,7 @@ def extract_pokemon_details(
     effective_weaknesses = [t for t in super_effective if t not in immunities]
     team_weakpoints = client.get_team_weakpoints(effective_weaknesses)
     strong_pokemon_summary = process_strong_pokemon_info(team_weakpoints)
+    pokemon_info["types"] = types
     pokemon_info["counter_pokemons"] = strong_pokemon_summary["weakness_pokemon"]
     return pokemon_info
 
