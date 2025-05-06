@@ -20,6 +20,7 @@ def process_strong_pokemon_info(pokemon_info: Dict[str, str]):
         items = Counter([entry["item"] for entry in entries])
         abilities = Counter([entry["ability"] for entry in entries])
         teras = Counter([entry["tera"] for entry in entries])
+
         moves = Counter()
         for entry in entries:
             moves.update(entry["moves"])
@@ -34,6 +35,7 @@ def process_strong_pokemon_info(pokemon_info: Dict[str, str]):
                 {"name": ability, "usage": round((count / total) * 100.0, 2)}
                 for ability, count in abilities.items()
             ],
+            "typing": entry["pkm_type"],
             "teratype": [
                 {"name": tera, "usage": round((count / total) * 100.0, 2)}
                 for tera, count in teras.items()
